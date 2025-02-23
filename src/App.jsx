@@ -1,34 +1,48 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import {useState} from 'react'
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [todoList, setTodoList] = useState([])
+  const [newTodo, setNewTodo] = useState('');
+  const [error, setError] = useState('');
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="container">
+      <header className="menu">
+        <h1 className="menu__title">To do List</h1>
+        <form id="todo_form" className="menu__form" onSubmit={(event) =>{
+          event.preventDefault();
+          if(newTodo === '') {
+            setError('Per favore, inserisci un testo!');
+          } else {
+            setTodoList([...todoList, newTodo])
+            setNewTodo('')
+          }
+        }}>
+          <input className="menu__input" id="todo_input" value={newTodo} onChange={(event)=>{
+            setError('');
+            setNewTodo(event.target.value)
+          }}/>
+          <button className="menu__add-button" type="submit">Add</button>
+          {
+            error ? 
+              <p className="menu__error">Per favore, inserisci un testo!</p> :
+              null
+          }
+        </form>
+      </header>
+      <main className="todo">
+        <ul id="todo_list" className="todo__list">{
+          todoList.map((text, i) => <li key={i} className='todo__item'>
+            <span className='todo__text'>{text}</span>
+            <button className='todo__done-button' onClick={() => {
+              setTodoList(todoList.filter((_, z) => z !== i))
+            }}>Done</button>
+          </li>)
+        }</ul>
+      </main>
+    </div>
   )
 }
 
