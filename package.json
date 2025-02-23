@@ -4,12 +4,15 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "server": "node server.js"
   },
   "dependencies": {
+    "@fastify/cors": "^10.0.2",
+    "fastify": "^5.2.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
